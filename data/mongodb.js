@@ -13,3 +13,8 @@ async function main() {
 }
 
 main().catch((err) => console.log(err));
+
+const userSchema = new mongoose.Schema({username: String, email: String, password: String, playlists: [{ type: mongoose.ObjectId, ref: 'Playlist'}], recents: [{ type: mongoose.ObjectId, ref: 'Recent'}]});
+const User = mongoose.model("User", userSchema);
+
+module.exports = { User };
