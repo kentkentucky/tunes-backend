@@ -3,7 +3,7 @@ const axios = require('axios');
 const { getAccessToken } = require('../api/spotify');
 
 const spotifySearch = async (req, res) => {
-    const { search } = req.body;
+    const { search } = req.query;
     let access_token = getAccessToken();
     try {
         const response = await axios.get(
@@ -26,4 +26,14 @@ const spotifySearch = async (req, res) => {
     }
 };
 
-module.exports = { spotifySearch };
+const getTrack = async (req, res) => {
+    const { trackID } = req.query;
+    try {
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Failed to get track");
+    }
+};
+
+module.exports = { spotifySearch, getTrack };
