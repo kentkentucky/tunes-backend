@@ -4,14 +4,14 @@ const { getAccessToken } = require('../api/spotify');
 
 const spotifySearch = async (req, res) => {
     const { search } = req.query;
-    let access_token = getAccessToken();
+    const access_token = getAccessToken();
     try {
         const response = await axios.get(
             `https://api.spotify.com/v1/search?q=${search}&type=album,artist,playlist,track&limit=4`,
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${access_token}`,
+                    'Authorization': 'Bearer ' + access_token,
                 },
             }
         );
@@ -28,12 +28,22 @@ const spotifySearch = async (req, res) => {
 
 const getTrack = async (req, res) => {
     const { trackID } = req.query;
+    const access_token = getAccessToken();
     try {
-        
+        const response = await axios.get(
+            `https://api.spotify.com/v1/tracks/${trackID}`,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                }
+            }
+        );
+        console.log(response.data);
     } catch (error) {
         console.error(error);
         res.status(500).send("Failed to get track");
     }
 };
+
 
 module.exports = { spotifySearch, getTrack };
