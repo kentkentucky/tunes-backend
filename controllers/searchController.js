@@ -45,5 +45,81 @@ const getTrack = async (req, res) => {
     }
 };
 
+const getAlbum = async (req, res) => {
+    const { albumID } = req.query;
+    const access_token = getAccessToken();
+    try {
+        const response = await axios.get(
+            `https://api.spotify.com/v1/albums/${albumID}`,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                }
+            }
+        );
+        res.json(response.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Failed to get album");
+    }
+}
 
-module.exports = { spotifySearch, getTrack };
+const getArtist = async (req, res) => {
+    const { artistID } = req.query;
+    const access_token = getAccessToken();
+    try {
+        const artistResponse = await axios.get(
+            `https://api.spotify.com/v1/artists/${artistID}`,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                }
+            }
+        );
+        const topTracksResponse = await axios.get(
+            `https://api.spotify.com/v1/artists/${artistID}/top-tracks`,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                }
+            }
+        );
+        const albumsResponse = await axios.get(
+            `https://api.spotify.com/v1/artists/${artistID}/albums`,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                }
+            }
+        );
+        const artist = artistResponse.data;
+        const tracks = topTracksResponse.data;
+        const albums = albumsResponse.data
+        res.json({ artist, tracks, albums });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Failed to get album");
+    }
+};
+
+const getPlaylist = async (req, res) => {
+    const { playlistID } = req.query;
+    const access_token = getAccessToken();
+
+    try {
+        const response = await axios.get(
+            `https://api.spotify.com/v1/playlists/${playlistID}`,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                }
+            }
+        );
+        res.json(response.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Failed to get album");
+    }
+};
+
+module.exports = { spotifySearch, getTrack, getAlbum, getArtist, getPlaylist };
