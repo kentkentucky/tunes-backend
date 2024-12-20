@@ -12,8 +12,8 @@ app.use(express.json());
 // allows requests from cross-origin (not same origin)
 app.use(cors()); 
 
-app.use("/login", loginRouter);
 app.use("/auth", authRouter);
+app.use("/login", loginRouter);
 app.use("/home", homeRouter);
 app.use("/search", searchRouter);
 

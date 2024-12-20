@@ -6,13 +6,11 @@ const querystring = require('querystring');
 
 const clientID = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-let redirect_uri = 'http://localhost:5173/home';
-
-let access_token = null;
+const redirect_uri = 'http://localhost:5173/login';
 
 const getAuth = (req, res) => {
     var state = generateRandomString(16);
-    var scope = 'user-read-private user-read-email';
+    var scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-currently-playing';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -28,7 +26,7 @@ const generateRandomString = (length) => {
     return crypto.randomBytes(length).toString('hex').slice(0, length);
 };
 
-const requestAccessToken = async(req, res) => {
+const requestAccessToken = async (req, res) => {
     const { code } = req.body;
     try {
         const response = await axios.post(
@@ -36,7 +34,7 @@ const requestAccessToken = async(req, res) => {
             new URLSearchParams({
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: 'http://localhost:5173/home',
+                redirect_uri: redirect_uri,
                 client_id: clientID,
                 client_secret: clientSecret,
             }),
@@ -47,13 +45,10 @@ const requestAccessToken = async(req, res) => {
             }
         );
         console.log("Successfully request access token");
-        access_token = response.data.access_token;
         res.json(response.data.access_token);
     } catch (error) {
         console.error(error);
     }
 };
 
-const getAccessToken = () => access_token;
-
-module.exports = { getAuth, requestAccessToken, getAccessToken };
+module.exports = { getAuth, requestAccessToken };
