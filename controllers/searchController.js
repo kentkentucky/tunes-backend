@@ -181,12 +181,12 @@ const addPlaylist = async (req, res) => {
 
 const addTrack = async (req, res) => {
     const { user: { id: userID }, } = req.body;
-    const { track: { type, id, uri, images, name, artists }, } = req.body;
+    const { track: { type, id, uri, album, name, artists }, } = req.body;
     const search = {
         "type": type,
         "id": id,
         "uri": uri,
-        "images": images,
+        "album": album,
         "name": name,
         "artists": artists
     };

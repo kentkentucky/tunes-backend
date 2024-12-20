@@ -16,7 +16,7 @@ main().catch((err) => console.log(err));
 
 const userSchema = new mongoose.Schema({username: String, email: String, password: String, playlists: [{ type: mongoose.ObjectId, ref: 'Playlist'}], recents: [{ type: mongoose.ObjectId, ref: 'Recent'}], searches: [{ type: mongoose.ObjectId, ref: 'Searche'}]});
 const User = mongoose.model("User", userSchema);
-const searchSchema = new mongoose.Schema({type: String, id: String, uri: String, images: Array, name: String, artists: Array});
+const searchSchema = new mongoose.Schema({type: String, id: String, uri: String, images: Array, album: Object, name: String, artists: Array});
 const Search = mongoose.model("Searche", searchSchema);
 
 module.exports = { User, Search };
