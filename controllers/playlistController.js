@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const { getAccessToken } = require('../api/spotify');
+const { getAccessToken } = require('./authController');
 
 const getPlaylist = async (req, res) => {
     const { playlistID } = req.query;

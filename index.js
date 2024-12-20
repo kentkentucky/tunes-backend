@@ -8,6 +8,7 @@ const homeRouter = require('./routes/homeRoutes');
 const albumRouter = require('./routes/albumRoutes');
 const artistRouter = require('./routes/artistRoutes');
 const playlistRouter = require('./routes/playlistRoutes');
+const authRouter = require('./routes/authRoutes');
 
 // middleware to accept json request bodies
 app.use(express.json()); 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(cors()); 
 
 app.use("/login", loginRouter);
+app.use("/auth", authRouter);
 app.use("/home", homeRouter);
 app.use("/search", searchRouter);
 app.use("/album", albumRouter);
