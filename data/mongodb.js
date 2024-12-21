@@ -18,7 +18,9 @@ const userSchema = new mongoose.Schema({username: String, email: String, passwor
 const User = mongoose.model("User", userSchema);
 const searchSchema = new mongoose.Schema({type: String, id: String, uri: String, images: Array, album: Object, name: String, artists: Array});
 const Search = mongoose.model("Searche", searchSchema);
-const songSchema = new mongoose.Schema({name: String, uri: String, artists: Array});
+const songSchema = new mongoose.Schema({name: String, uri: String, artists: Array, images: Array, id: String});
 const Song = mongoose.model("Song", songSchema);
+const recentSchema = new mongoose.Schema({type: String, id: String, uri: String, images: Array, album: Object, name: String, artists: Array});
+const Recent = mongoose.model("Recent", recentSchema);
 
-module.exports = { User, Search, Song };
+module.exports = { User, Search, Song, Recent };

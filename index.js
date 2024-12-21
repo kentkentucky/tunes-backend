@@ -6,6 +6,7 @@ const loginRouter = require('./routes/loginRoutes');
 const searchRouter = require('./routes/searchRoutes');
 const homeRouter = require('./routes/homeRoutes');
 const authRouter = require('./routes/authRoutes');
+const recentRouter = require('./routes/recentRoutes');
 
 // middleware to accept json request bodies
 app.use(express.json()); 
@@ -16,6 +17,7 @@ app.use("/auth", authRouter);
 app.use("/login", loginRouter);
 app.use("/home", homeRouter);
 app.use("/search", searchRouter);
+app.use("/recent", recentRouter);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

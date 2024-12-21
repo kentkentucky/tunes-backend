@@ -1,6 +1,26 @@
 const axios = require('axios');
 
-const { Search, User } = require('../data/mongodb');
+const { Search, User, Recent } = require('../data/mongodb');
+
+const addSearch = async (userID, search) => {
+    const existingSearch = await Search.findOne(search);
+    if(!existingSearch) {
+        const addSearch = await Search.create(search);
+        const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
+        if(addSearchID) return { success: true, message: "Successfully added search" };
+    }
+    return { success: false, message: "Search exists" };
+};
+
+const addRecent = async (userID, search) => {
+    const existingRecent = await Recent.findOne(search);
+    if(!existingRecent) {
+        const addRecent = await Recent.create(search);
+        const addRecentID = await User.findByIdAndUpdate(userID, { $push: { recents: addRecent._id } });
+        if(addRecentID) return { success: true, message: "Successfully added recent" };
+    }
+    return { success: false, message: "Recent exists" };
+};
 
 const spotifySearch = async (req, res) => {
     const { search, accessToken } = req.query;
@@ -129,13 +149,10 @@ const addAlbum = async (req, res) => {
         "artists": artists
     };
     try {
-        const existingSearch = await Search.findOne(search);
-        if(!existingSearch) {
-            const addSearch = await Search.create(search);
-            const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
-            if(addSearchID) res.status(201).send("Successfully added search");
-        }
-        res.status(200).send("Search exists");
+        // add to searches
+        const searchquery = await addSearch(userID, search);
+        if (searchquery.success) res.status(201).send(searchquery.message);
+        else res.status(200).send(searchquery.message);
     } catch (error) {
         console.error(error);
         res.status(400).send("Failed to add search");
@@ -154,13 +171,10 @@ const addArtist = async (req, res) => {
         "name": name,
     };
     try {
-        const existingSearch = await Search.findOne(search);
-        if(!existingSearch) {
-            const addSearch = await Search.create(search);
-            const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
-            if(addSearchID) res.status(201).send("Successfully added search");
-        }
-        res.status(200).send("Search exists");
+        // add to searches
+        const searchquery = await addSearch(userID, search);
+        if (searchquery.success) res.status(201).send(searchquery.message);
+        else res.status(200).send(searchquery.message);
     } catch (error) {
         console.error(error);
         res.status(400).send("Failed to add search");
@@ -178,13 +192,10 @@ const addPlaylist = async (req, res) => {
         "name": name,
     };
     try {
-        const existingSearch = await Search.findOne(search);
-        if(!existingSearch) {
-            const addSearch = await Search.create(search);
-            const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
-            if(addSearchID) res.status(201).send("Successfully added search");
-        }
-        res.status(200).send("Search exists");
+        // add to searches
+        const searchquery = await addSearch(userID, search);
+        if (searchquery.success) res.status(201).send(searchquery.message);
+        else res.status(200).send(searchquery.message);
     } catch (error) {
         console.error(error);
         res.status(400).send("Failed to add search");
@@ -203,13 +214,15 @@ const addTrack = async (req, res) => {
         "artists": artists
     };
     try {
-        const existingSearch = await Search.findOne(search);
-        if(!existingSearch) {
-            const addSearch = await Search.create(search);
-            const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
-            if(addSearchID) res.status(201).send("Successfully added search");
-        }
-        res.status(200).send("Search exists");
+        // add to searches
+        const searchquery = await addSearch(userID, search);
+        if (searchquery.success) res.status(201).send(searchquery.message);
+        else res.status(200).send(searchquery.message);
+
+        // add to recents
+        const recentquery = await addRecent(userID, search);
+        if (recentquery.success) res.status(201).send(recentquery.message);
+        else res.status(200).send(recentquery.message);
     } catch (error) {
         console.error(error);
         res.status(400).send("Failed to add search");
