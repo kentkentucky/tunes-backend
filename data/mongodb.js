@@ -18,5 +18,7 @@ const userSchema = new mongoose.Schema({username: String, email: String, passwor
 const User = mongoose.model("User", userSchema);
 const searchSchema = new mongoose.Schema({type: String, id: String, uri: String, images: Array, album: Object, name: String, artists: Array});
 const Search = mongoose.model("Searche", searchSchema);
+const songSchema = new mongoose.Schema({name: String, uri: String, artists: Array});
+const Song = mongoose.model("Song", songSchema);
 
-module.exports = { User, Search };
+module.exports = { User, Search, Song };

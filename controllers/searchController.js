@@ -129,9 +129,13 @@ const addAlbum = async (req, res) => {
         "artists": artists
     };
     try {
-        const addSearch = await Search.create(search);
-        const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
-        if(addSearchID) res.status(200).send("Successfully added search");
+        const existingSearch = await Search.findOne(search);
+        if(!existingSearch) {
+            const addSearch = await Search.create(search);
+            const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
+            if(addSearchID) res.status(201).send("Successfully added search");
+        }
+        res.status(200).send("Search exists");
     } catch (error) {
         console.error(error);
         res.status(400).send("Failed to add search");
@@ -150,9 +154,13 @@ const addArtist = async (req, res) => {
         "name": name,
     };
     try {
-        const addSearch = await Search.create(search);
-        const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
-        if(addSearchID) res.status(200).send("Successfully added search");
+        const existingSearch = await Search.findOne(search);
+        if(!existingSearch) {
+            const addSearch = await Search.create(search);
+            const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
+            if(addSearchID) res.status(201).send("Successfully added search");
+        }
+        res.status(200).send("Search exists");
     } catch (error) {
         console.error(error);
         res.status(400).send("Failed to add search");
@@ -170,9 +178,13 @@ const addPlaylist = async (req, res) => {
         "name": name,
     };
     try {
-        const addSearch = await Search.create(search);
-        const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
-        if(addSearchID) res.status(200).send("Successfully added search");
+        const existingSearch = await Search.findOne(search);
+        if(!existingSearch) {
+            const addSearch = await Search.create(search);
+            const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
+            if(addSearchID) res.status(201).send("Successfully added search");
+        }
+        res.status(200).send("Search exists");
     } catch (error) {
         console.error(error);
         res.status(400).send("Failed to add search");
@@ -191,9 +203,13 @@ const addTrack = async (req, res) => {
         "artists": artists
     };
     try {
-        const addSearch = await Search.create(search);
-        const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
-        if(addSearchID) res.status(200).send("Successfully added search");
+        const existingSearch = await Search.findOne(search);
+        if(!existingSearch) {
+            const addSearch = await Search.create(search);
+            const addSearchID = await User.findByIdAndUpdate(userID, { $push: { searches: addSearch._id } });
+            if(addSearchID) res.status(201).send("Successfully added search");
+        }
+        res.status(200).send("Search exists");
     } catch (error) {
         console.error(error);
         res.status(400).send("Failed to add search");
